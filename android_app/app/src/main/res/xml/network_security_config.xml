@@ -1,0 +1,8 @@
+<network-security-config>
+    <!-- 'cleartextTrafficPermitted' enabled to allow downloading bundles from metro -->
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
