@@ -1,0 +1,18 @@
+appId: com.vaidyakhil.myapplication
+tags:
+    - android
+
+jsEngine: graaljs
+
+---
+- launchApp:
+      clearState: true
+      arguments:
+          # populate this env variabe when running tests with maestro cli
+          base-url: '${MOCK_SERVER_URL}'
+ 
+- assertVisible: "1"
+
+- tapOn: increase
+
+- assertVisible: "2"
