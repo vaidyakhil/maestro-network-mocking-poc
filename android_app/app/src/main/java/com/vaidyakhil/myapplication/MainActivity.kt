@@ -44,10 +44,7 @@ class MainActivity : AppCompatActivity() {
                     binding.numItems.visibility = View.VISIBLE
                     binding.numItems.text = newVal.toString()
 
-                    if (newVal in 1..3) {
-                        binding.numItems.setTextColor(resources.getColor(R.color.ok,
-                            this@MainActivity.theme))
-                    } else {
+                    if (newVal !in 1..2) {
                         binding.numItems.setTextColor(resources.getColor(R.color.danger,
                             this@MainActivity.theme))
                     }
