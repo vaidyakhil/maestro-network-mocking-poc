@@ -35,10 +35,17 @@ MOCK_SERVER_URL="http://$LOCAL_IP_ADDRESS:$DEFAULT_WIREMOCK_SERVER"
 echo "$MOCK_SERVER_URL"
 
 # start wiremock server in background (&)
-(cd wiremock && java -jar wiremock-standalone.jar --verbose &)
+(cd wiremock && java -jar wiremock-standalone.jar &)
 
 maestro test .maestro/flows/quantity_selector.yaml -e MOCK_SERVER_URL=$MOCK_SERVER_URL
 
-# we are done running the tests
+# reset the mock-server
+curl \
+    -X POST \
+    -L "$MOCK_SERVER_URL/__admin/mappings/reset" \
+    -d '{}'
+
 # kill the wiremock server
-curl -X POST -L "$MOCK_SERVER_URL/__admin/shutdown"
+curl \
+    -X POST \
+    -L "$MOCK_SERVER_URL/__admin/shutdown"
