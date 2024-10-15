@@ -3,14 +3,12 @@ package com.vaidyakhil.myapplication
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import com.vaidyakhil.myapplication.databinding.ActivityMainBinding
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Callback
+import com.vaidyakhil.myapplication.network.Service
 import okhttp3.Call
-import okhttp3.RequestBody
+import okhttp3.Callback
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
@@ -18,20 +16,6 @@ import java.io.IOException
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-    private var baseUrl: String = "http://192.168.0.107:3001"
-
-    private fun setupBaseUrl () {
-        intent.getStringExtra("base-url")?.let {
-            baseUrl = it
-        }
-    }
-
-    private val service = lazy {
-        OkHttpClient.Builder()
-            .fastFallback(true)
-            .build();
-    }
 
     private val networkCallback = object : Callback {
         override fun onResponse(call: Call, response: Response) {
@@ -70,29 +54,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun decreaseItem () {
-        val request = Request.Builder()
-            .post(RequestBody.create(null, ByteArray(0)))
-            .url("${baseUrl}/decrease")
-            .build()
-
-        service.value.newCall(request).enqueue(networkCallback)
+        Service.post("/decrease", networkCallback)
     }
 
     private fun increaseItem () {
-        val request = Request.Builder()
-            .post(RequestBody.create(null, ByteArray(0)))
-            .url("${baseUrl}/increase")
-            .build()
-
-        service.value.newCall(request).enqueue(networkCallback)
+        Service.post("/increase", networkCallback)
     }
 
     private fun fetchData() {
-        val request = Request.Builder()
-            .url("${baseUrl}/getData")
-            .build()
-
-        service.value.newCall(request).enqueue(networkCallback)
+        Service.get("/getData", networkCallback)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,8 +70,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        setupBaseUrl()
         fetchData()
 
         binding.buttonDecrease.setOnClickListener {
