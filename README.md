@@ -2,7 +2,8 @@
 
 This repository contains a sample app that uses WireMock as a mock API server and runs UI tests with Maestro.
 
-![test_run_android](res/test_run_android.gif)
+![test_run_android](res/test_run_android.gif)  
+  
 **Maestro Test Run With WireMock On Android Physical Device**
 
 ## Prerequisites
