@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private var baseUrl: String = "http://192.168.0.107:8080"
+    private var baseUrl: String = "http://192.168.0.107:3001"
 
     private fun setupBaseUrl () {
         intent.getStringExtra("base-url")?.let {
@@ -44,8 +44,11 @@ class MainActivity : AppCompatActivity() {
                     binding.numItems.visibility = View.VISIBLE
                     binding.numItems.text = newVal.toString()
 
-                    if (newVal !in 1..2) {
+                    if (newVal != 1) {
                         binding.numItems.setTextColor(resources.getColor(R.color.danger,
+                            this@MainActivity.theme))
+                    } else {
+                        binding.numItems.setTextColor(resources.getColor(R.color.primary,
                             this@MainActivity.theme))
                     }
                 }
