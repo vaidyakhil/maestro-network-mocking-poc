@@ -1,26 +1,58 @@
 import express from "express";
 import cors from "cors";
+import fs from "fs";
 
 const app = express();
 app.use(cors());
 
 const port = 3001;
 
+const getCurrentNumItems = () => {
+  const stringContent = fs.readFileSync("./database/items.json", {
+    encoding: "utf-8",
+  });
+  const jsonContent = JSON.parse(stringContent);
+  return jsonContent.numItems;
+};
+
+const updateCurrentNumItems = (newNumItems) => {
+  fs.writeFileSync(
+    "./database/items.json",
+    JSON.stringify({
+      numItems: newNumItems,
+    })
+  );
+};
+
 app.get("/getData", (req, res) => {
   console.log("getData called");
-  res.send({ numItems: 1 });
+  res.send({ numItems: getCurrentNumItems() });
 });
 
 app.post("/decrease", (req, res) => {
   console.log("decrease called");
-  res.send({ numItems: 0 });
-  //   res.status(500).send({ message: "atleast 1 item has to be there" });
+
+  const currentItems = getCurrentNumItems();
+  if (currentItems > 0) {
+    const newNumItems = currentItems - 1;
+    updateCurrentNumItems(newNumItems);
+
+    res.send({ numItems: newNumItems });
+  } else {
+    res.status(500).send({ message: "number of items cannot be less than 0" });
+  }
 });
 
 app.post("/increase", (req, res) => {
-  console.log("increase called");
-  res.send({ numItems: 2 });
-  //   res.status(500).send({ message: "cannot be more than 2" });
+  const currentItems = getCurrentNumItems();
+  if (currentItems < 2) {
+    const newNumItems = currentItems + 1;
+    updateCurrentNumItems(newNumItems);
+
+    res.send({ numItems: newNumItems });
+  } else {
+    res.status(500).send({ message: "number of items cannot be more than 2" });
+  }
 });
 
 app.listen(port, () => {
