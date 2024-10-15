@@ -25,7 +25,7 @@ get_ip() {
     #     echo "Error: Neither 'ip' nor 'ifconfig' command is available."
     #     exit 1
     # fi
-    LOCAL_IP_ADDRESS=192.168.0.107
+    LOCAL_IP_ADDRESS=<YOUR_IP_ADDRESS>
 }
 
 get_ip

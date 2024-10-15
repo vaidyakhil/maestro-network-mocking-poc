@@ -1,5 +1,6 @@
+<!-- cleartextTrafficPermitted is required to communicate over http -->
+<!-- note the lack of system certs-->
 <network-security-config>
-    <!-- 'cleartextTrafficPermitted' enabled to allow downloading bundles from metro -->
     <base-config cleartextTrafficPermitted="true">
         <trust-anchors>
             <certificates src="user" />
