@@ -1,0 +1,23 @@
+appId: com.vaidyakhil.myapplication
+tags:
+  - android
+
+jsEngine: graaljs
+
+---
+- launchApp:
+    clearState: true
+    arguments:
+      # populate this env variabe when running tests with maestro cli
+      test-id: "increase-button"
+
+- assertVisible: "0"
+
+- tapOn: increase
+- assertVisible: "1"
+
+- tapOn: increase
+- assertVisible: "2"
+
+- tapOn: increase
+- assertVisible: "number of items cannot be more than 2"

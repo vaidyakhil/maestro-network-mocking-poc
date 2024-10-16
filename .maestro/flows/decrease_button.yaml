@@ -1,0 +1,23 @@
+appId: com.vaidyakhil.myapplication
+tags:
+  - android
+
+jsEngine: graaljs
+
+---
+- launchApp:
+    clearState: true
+    arguments:
+      # populate this env variabe when running tests with maestro cli
+      test-id: "decrease-button"
+
+- assertVisible: "0"
+
+- tapOn: increase
+- assertVisible: "1"
+
+- tapOn: decrease
+- assertVisible: "0"
+
+- tapOn: decrease
+- assertVisible: "number of items cannot be less than 0"
