@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private lateinit var service: Service
+
     private val networkCallback = object : Callback {
         override fun onResponse(call: Call, response: Response) {
             val stringRes = response.body.string()
@@ -54,15 +56,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun decreaseItem () {
-        Service.post("/decrease", networkCallback)
+        service.post("/decrease", networkCallback)
     }
 
     private fun increaseItem () {
-        Service.post("/increase", networkCallback)
+        service.post("/increase", networkCallback)
     }
 
     private fun fetchData() {
-        Service.get("/getData", networkCallback)
+        service.get("/getData", networkCallback)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,8 +72,11 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        fetchData()
 
+
+        service = Service(this@MainActivity, intent.getStringExtra("test-id") ?: "")
+
+        fetchData()
         binding.buttonDecrease.setOnClickListener {
             decreaseItem()
         }

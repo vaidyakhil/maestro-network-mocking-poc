@@ -19,13 +19,18 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
+
+        create("automation") {
+            initWith(getByName("debug"))
+        }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -51,4 +56,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.10")
+
+    // only add the dependency in automation variant
+    add("automationImplementation", "com.squareup.okhttp3:mockwebserver:5.0.0-alpha.10")
 }
